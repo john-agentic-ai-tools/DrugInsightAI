@@ -1,0 +1,27 @@
+[tool.poetry]
+name = "druginsightai-data-harvesters"
+version = "0.1.0"
+description = "Data harvesting service for pharmaceutical data sources"
+authors = ["Your Name <your.email@example.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+requests = "^2.31.0"
+beautifulsoup4 = "^4.12.0"
+pandas = "^2.1.0"
+sqlalchemy = "^2.0.0"
+pydantic = "^2.4.0"
+asyncio = "^3.4.3"
+aiohttp = "^3.8.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.0"
+pytest-asyncio = "^0.21.0"
+black = "^23.0"
+isort = "^5.0"
+flake8 = "^6.0"
+mypy = "^1.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

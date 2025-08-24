@@ -1,0 +1,92 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  test-python-services:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        service: [data-harvesters, data-processors, api]
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+    
+    - name: Install Poetry
+      uses: snok/install-poetry@v1
+      with:
+        virtualenvs-create: true
+        virtualenvs-in-project: true
+    
+    - name: Install dependencies
+      working-directory: ./services/${{ matrix.service }}
+      run: poetry install
+    
+    - name: Run tests
+      working-directory: ./services/${{ matrix.service }}
+      run: poetry run pytest
+    
+    - name: Run linting
+      working-directory: ./services/${{ matrix.service }}
+      run: |
+        poetry run black --check .
+        poetry run isort --check-only .
+        poetry run flake8 .
+        poetry run mypy .
+
+  test-web-app:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        cache-dependency-path: './apps/web/package-lock.json'
+    
+    - name: Install dependencies
+      working-directory: ./apps/web
+      run: npm ci
+    
+    - name: Run tests
+      working-directory: ./apps/web
+      run: npm test
+    
+    - name: Run linting
+      working-directory: ./apps/web
+      run: npm run lint
+    
+    - name: Build
+      working-directory: ./apps/web
+      run: npm run build
+
+  deploy:
+    needs: [test-python-services, test-web-app]
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-east-1
+    
+    - name: Deploy to AWS
+      run: |
+        echo "Deploy to AWS infrastructure"

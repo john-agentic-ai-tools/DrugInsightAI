@@ -1,0 +1,35 @@
+[tool.poetry]
+name = "druginsightai"
+version = "0.1.0"
+description = "Drug discovery and pharmaceutical data analysis suite"
+authors = ["John Ciliberti <@example.com>"]
+packages = [
+    {include = "druginsightai", from = "packages"},
+]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.0"
+black = "^23.0"
+isort = "^5.0"
+flake8 = "^6.0"
+mypy = "^1.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 88
+target-version = ['py311']
+
+[tool.isort]
+profile = "black"
+line_length = 88
+
+[tool.mypy]
+python_version = "3.11"
+warn_return_any = true
+warn_unused_configs = true
