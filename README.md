@@ -47,8 +47,4 @@ This monorepo contains the following components:
 ## Getting Started
 
 See individual service READMEs for setup instructions.
-
-## Deployment
-
-Target platform: AWS
-CI/CD: GitHub Actions
+See the [Code of Conduct](CODE_OF_CONDUCT.md) and [Contributing](CONTRIBUTING.md) guides for details on how to submit issues and pull requests.
