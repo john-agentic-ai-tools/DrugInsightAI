@@ -55,18 +55,21 @@ Enhancement suggestions are tracked as GitHub issues. When creating an enhanceme
 ### Local Development
 
 1. Clone the repository:
+
 ```bash
 git clone https://github.com/john-agentic-ai-tools/DrugInsightAI.git
 cd DrugInsightAI
 ```
 
 2. Set up local databases:
+
 ```bash
 cd infra/database
 docker-compose up -d
 ```
 
 3. Set up Python services:
+
 ```bash
 # For each service/package
 cd services/{service-name}  # or packages/{package-name}
@@ -75,6 +78,7 @@ poetry run pytest
 ```
 
 4. Set up web application:
+
 ```bash
 cd apps/web
 npm ci
@@ -82,6 +86,7 @@ npm run dev
 ```
 
 5. Set up mobile application:
+
 ```bash
 cd apps/mobile
 npm install
