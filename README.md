@@ -1,6 +1,6 @@
 # DrugInsightAI
 
-A comprehensive suite of tools for drug discovery and pharmaceutical data analysis. 
+A comprehensive suite of tools for drug discovery and pharmaceutical data analysis.
 
 “Turning drug data into drug insight.”
 

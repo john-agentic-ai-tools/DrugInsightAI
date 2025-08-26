@@ -56,8 +56,7 @@ enable=
 # Set the output format
 output-format=colorized
 
-# Include message's id in output
-include-ids=yes
+# Include message's id in output (deprecated, now always included)
 
 # Reports to generate
 reports=no
@@ -254,7 +253,7 @@ valid-metaclass-classmethod-first-arg=cls
 
 [EXCEPTIONS]
 # Exceptions that will emit a warning when being caught
-overgeneral-exceptions=BaseException,Exception
+overgeneral-exceptions=builtins.BaseException,builtins.Exception
 
 [IMPORTS]
 # Allow wildcard imports from modules that define __all__

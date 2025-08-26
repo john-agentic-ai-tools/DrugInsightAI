@@ -45,29 +45,29 @@ jobs:
     strategy:
       matrix:
         service: [data-harvesters, data-processors, api]
-    
+
     steps:
     - uses: actions/checkout@v4
-    
+
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
         python-version: '3.11'
-    
+
     - name: Install Poetry
       uses: snok/install-poetry@v1
       with:
         virtualenvs-create: true
         virtualenvs-in-project: true
-    
+
     - name: Install dependencies
       working-directory: ./services/${{ matrix.service }}
       run: poetry install
-    
+
     - name: Run tests
       working-directory: ./services/${{ matrix.service }}
       run: poetry run pytest
-    
+
     - name: Run linting
       working-directory: ./services/${{ matrix.service }}
       run: |
@@ -80,29 +80,29 @@ jobs:
     needs: changes
     if: ${{ needs.changes.outputs.web-app == 'true' }}
     runs-on: ubuntu-latest
-    
+
     steps:
     - uses: actions/checkout@v4
-    
+
     - name: Set up Node.js
       uses: actions/setup-node@v4
       with:
         node-version: '18'
         cache: 'npm'
         cache-dependency-path: './apps/web/package-lock.json'
-    
+
     - name: Install dependencies
       working-directory: ./apps/web
       run: npm ci
-    
+
     - name: Run tests
       working-directory: ./apps/web
       run: npm test
-    
+
     - name: Run linting
       working-directory: ./apps/web
       run: npm run lint
-    
+
     - name: Build
       working-directory: ./apps/web
       run: npm run build
@@ -114,29 +114,29 @@ jobs:
     strategy:
       matrix:
         package: [common, auth, database, logging]
-    
+
     steps:
     - uses: actions/checkout@v4
-    
+
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
         python-version: '3.11'
-    
+
     - name: Install Poetry
       uses: snok/install-poetry@v1
       with:
         virtualenvs-create: true
         virtualenvs-in-project: true
-    
+
     - name: Install dependencies
       working-directory: ./packages/${{ matrix.package }}
       run: poetry install
-    
+
     - name: Run tests
       working-directory: ./packages/${{ matrix.package }}
       run: poetry run pytest
-    
+
     - name: Run linting
       working-directory: ./packages/${{ matrix.package }}
       run: |
@@ -149,25 +149,25 @@ jobs:
     needs: changes
     if: ${{ needs.changes.outputs.mobile-app == 'true' }}
     runs-on: ubuntu-latest
-    
+
     steps:
     - uses: actions/checkout@v4
-    
+
     - name: Set up Node.js
       uses: actions/setup-node@v4
       with:
         node-version: '18'
         cache: 'npm'
         cache-dependency-path: './apps/mobile/package-lock.json'
-    
+
     - name: Install dependencies
       working-directory: ./apps/mobile
       run: npm install
-    
+
     - name: Run tests
       working-directory: ./apps/mobile
       run: npm test
-    
+
     - name: Run linting
       working-directory: ./apps/mobile
       run: npm run lint
@@ -176,17 +176,17 @@ jobs:
     needs: [changes, test-python-services, test-web-app, test-packages, test-mobile-app]
     runs-on: ubuntu-latest
     if: (github.ref == 'refs/heads/develop' || startsWith(github.ref, 'refs/heads/release/')) && (needs.test-python-services.result == 'success' || needs.test-python-services.result == 'skipped') && (needs.test-web-app.result == 'success' || needs.test-web-app.result == 'skipped') && (needs.test-packages.result == 'success' || needs.test-packages.result == 'skipped') && (needs.test-mobile-app.result == 'success' || needs.test-mobile-app.result == 'skipped')
-    
+
     steps:
     - uses: actions/checkout@v4
-    
+
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v4
       with:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: us-east-1
-    
+
     - name: Deploy to AWS
       run: |
         echo "Deploy to AWS infrastructure"
