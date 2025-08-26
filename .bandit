@@ -1,0 +1,39 @@
+[bandit]
+exclude_dirs = [
+    "tests",
+    "test",
+    "*test*",
+    ".venv",
+    "venv",
+    "node_modules",
+    ".git",
+    "__pycache__",
+    ".pytest_cache",
+    "migrations"
+]
+
+# Skip certain test IDs that are common false positives
+# B101: Test for use of assert
+# B601: Shell injection possible with subprocess module
+# B603: subprocess call - check for execution of untrusted input
+skips = ["B101"]
+
+# Confidence levels: LOW, MEDIUM, HIGH
+confidence = "MEDIUM"
+
+# Severity levels to report: LOW, MEDIUM, HIGH
+severity = "MEDIUM"
+
+# Formats available: csv,custom,html,json,screen,txt,xml,yaml
+format = "screen"
+
+# Additional paths to scan (relative to the bandit config file location)
+include = ["services", "packages"]
+
+# Exclude certain files
+exclude = [
+    "*/migrations/*",
+    "*/alembic/versions/*",
+    "*/test_*.py",
+    "*_test.py"
+]
