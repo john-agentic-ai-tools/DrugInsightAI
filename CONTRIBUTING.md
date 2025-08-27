@@ -34,13 +34,13 @@ Enhancement suggestions are tracked as GitHub issues. When creating an enhanceme
 
 1. Ensure an issue exists for the change, bug, or new feature you wish to add. If none exist create one.
 2. Fork the repository
-2. Follow the instructions in the README.md file to set up your development environment.
-2. Create a new feature branch from `develop` for your feature or fix
-3. Make your changes following our development guidelines
-4. Add tests for your changes
-5. Ensure all tests pass and precommit hooks pass.
-6. Update documentation if needed
-7. Create a pull request
+3. Follow the instructions in the README.md file to set up your development environment.
+4. Create a new feature branch from `develop` for your feature or fix
+5. Make your changes following our development guidelines
+6. Add tests for your changes
+7. Ensure all tests pass and precommit hooks pass.
+8. Update documentation if needed
+9. Create a pull request
 
 ## Development Setup
 
@@ -54,21 +54,21 @@ Enhancement suggestions are tracked as GitHub issues. When creating an enhanceme
 
 ### Local Development
 
-1. Clone the repository:
+Step 1. Clone the repository:
 
 ```bash
 git clone https://github.com/john-agentic-ai-tools/DrugInsightAI.git
 cd DrugInsightAI
 ```
 
-2. Set up local databases:
+Step 2. Set up local databases:
 
 ```bash
 cd infra/database
 docker-compose up -d
 ```
 
-3. Set up Python services:
+Step 3. Set up Python services:
 
 ```bash
 # For each service/package
@@ -77,7 +77,7 @@ poetry install
 poetry run pytest
 ```
 
-4. Set up web application:
+Step 4. Set up web application:
 
 ```bash
 cd apps/web
@@ -85,7 +85,7 @@ npm ci
 npm run dev
 ```
 
-5. Set up mobile application:
+Step 5. Set up mobile application:
 
 ```bash
 cd apps/mobile
