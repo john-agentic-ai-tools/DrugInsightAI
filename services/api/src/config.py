@@ -34,7 +34,7 @@ class Settings(BaseSettings):
     redis_max_connections: int = 10
 
     # Security settings
-    secret_key: str = "dev-secret-key-change-in-production"
+    secret_key: str = "dev-secret-key-change-in-production-INSECURE"
     algorithm: str = "HS256"
     access_token_expire_minutes: int = 30
     refresh_token_expire_days: int = 7
@@ -107,12 +107,26 @@ class Settings(BaseSettings):
         return v
 
     @model_validator(mode="after")
-    def validate_aws_auth(self):
-        """Enable AWS auth only if required settings are provided."""
+    def validate_security_settings(self):
+        """Validate security settings for production use."""
+        # Enable AWS auth only if required settings are provided
         if self.enable_aws_auth and not all(
             [self.aws_cognito_user_pool_id, self.aws_cognito_client_id]
         ):
             self.enable_aws_auth = False
+
+        # Ensure secure secret key in production
+        if self.environment == "production":
+            if "dev-secret-key" in self.secret_key or "INSECURE" in self.secret_key:
+                raise ValueError(
+                    "SECURITY ERROR: Insecure secret key detected in production environment. "
+                    "Set DRUGINSIGHTAI_SECRET_KEY environment variable with a secure random key."
+                )
+            if len(self.secret_key) < 32:
+                raise ValueError(
+                    "SECURITY ERROR: Secret key must be at least 32 characters in production."
+                )
+
         return self
 
     model_config = ConfigDict(

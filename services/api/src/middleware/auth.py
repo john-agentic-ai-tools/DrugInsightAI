@@ -264,38 +264,46 @@ class AuthMiddleware(BaseHTTPMiddleware):
         return None
 
     async def _verify_api_key(self, api_key: str) -> bool:
-        """Verify API key."""
+        """Verify API key against stored hashes."""
         async with get_db_session() as db:
+            # Get all active API key hashes to verify against
             result = await db.execute(
-                "SELECT user_id FROM api_keys WHERE key_hash = :key_hash AND is_active = true AND (expires_at IS NULL OR expires_at > NOW())",
-                {"key_hash": self.auth_service.get_password_hash(api_key)},
+                "SELECT key_hash FROM api_keys WHERE is_active = true AND (expires_at IS NULL OR expires_at > NOW())"
             )
-            return result.fetchone() is not None
+            stored_hashes = result.fetchall()
+
+            # Use constant-time comparison to prevent timing attacks
+            for row in stored_hashes:
+                if self.auth_service.verify_password(api_key, row.key_hash):
+                    return True
+            return False
 
     async def _get_api_key_user(self, api_key: str) -> Optional[Dict[str, Any]]:
-        """Get user data for API key."""
+        """Get user data for API key using secure verification."""
         async with get_db_session() as db:
+            # Get all active API keys with user data
             result = await db.execute(
                 """
-                SELECT u.id, u.email, u.first_name, u.last_name, u.role, u.organization
+                SELECT u.id, u.email, u.first_name, u.last_name, u.role, u.organization, ak.key_hash
                 FROM users u
                 JOIN api_keys ak ON u.id = ak.user_id
-                WHERE ak.key_hash = :key_hash AND ak.is_active = true AND (ak.expires_at IS NULL OR ak.expires_at > NOW())
-                """,
-                {"key_hash": self.auth_service.get_password_hash(api_key)},
+                WHERE ak.is_active = true AND (ak.expires_at IS NULL OR ak.expires_at > NOW())
+                """
             )
-            user_data = result.fetchone()
+            api_key_data = result.fetchall()
 
-            if user_data:
-                return {
-                    "user_id": str(user_data.id),
-                    "email": user_data.email,
-                    "first_name": user_data.first_name,
-                    "last_name": user_data.last_name,
-                    "role": user_data.role,
-                    "organization": user_data.organization,
-                    "auth_type": "api_key",
-                }
+            # Verify API key against each stored hash using constant-time comparison
+            for row in api_key_data:
+                if self.auth_service.verify_password(api_key, row.key_hash):
+                    return {
+                        "user_id": str(row.id),
+                        "email": row.email,
+                        "first_name": row.first_name,
+                        "last_name": row.last_name,
+                        "role": row.role,
+                        "organization": row.organization,
+                        "auth_type": "api_key",
+                    }
         return None
 
 
