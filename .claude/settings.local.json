@@ -5,7 +5,9 @@
       "Bash(tree:*)",
       "Bash(python:*)",
       "Bash(pre-commit run:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(source:*)",
+      "Bash(find:*)"
     ],
     "ask": [],
     "deny": []
