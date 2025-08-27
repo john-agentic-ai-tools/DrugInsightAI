@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+
+    <changeSet id="003-001-create-companies-table" author="druginsightai">
+        <comment>Create pharmaceutical companies table</comment>
+        <createTable tableName="companies">
+            <column name="id" type="uuid" defaultValueComputed="uuid_generate_v4()">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ticker" type="varchar(10)"/>
+            <column name="country" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="market_cap" type="decimal(15,2)"/>
+            <column name="employees" type="integer"/>
+            <column name="founded_year" type="integer"/>
+            <column name="headquarters" type="varchar(200)"/>
+            <column name="website" type="varchar(500)"/>
+            <column name="description" type="text"/>
+            <column name="ceo" type="varchar(100)"/>
+            <column name="revenue" type="decimal(15,2)"/>
+            <column name="rd_spending" type="decimal(15,2)"/>
+            <column name="therapeutic_focus" type="text[]"/>
+            <column name="is_active" type="boolean" defaultValue="true">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="003-002-create-company-partnerships-table" author="druginsightai">
+        <comment>Create company partnerships table</comment>
+        <createTable tableName="company_partnerships">
+            <column name="id" type="uuid" defaultValueComputed="uuid_generate_v4()">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="company_id" type="uuid">
+                <constraints nullable="false" foreignKeyName="fk_partnerships_company" references="companies(id)" deleteCascade="true"/>
+            </column>
+            <column name="partner_name" type="varchar(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="partner_company_id" type="uuid">
+                <constraints nullable="true" foreignKeyName="fk_partnerships_partner" references="companies(id)"/>
+            </column>
+            <column name="deal_value" type="decimal(15,2)"/>
+            <column name="deal_type" type="varchar(100)"/>
+            <column name="description" type="text"/>
+            <column name="announcement_date" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="start_date" type="date"/>
+            <column name="end_date" type="date"/>
+            <column name="is_active" type="boolean" defaultValue="true">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>

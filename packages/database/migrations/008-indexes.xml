@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+
+    <!-- User and Authentication Indexes -->
+    <changeSet id="008-001-create-user-indexes" author="druginsightai">
+        <comment>Create indexes for users and authentication tables</comment>
+        <createIndex indexName="idx_users_email" tableName="users">
+            <column name="email"/>
+        </createIndex>
+        <createIndex indexName="idx_users_organization" tableName="users">
+            <column name="organization"/>
+        </createIndex>
+        <createIndex indexName="idx_users_created_at" tableName="users">
+            <column name="created_at"/>
+        </createIndex>
+        <createIndex indexName="idx_api_keys_user_id" tableName="api_keys">
+            <column name="user_id"/>
+        </createIndex>
+        <createIndex indexName="idx_refresh_tokens_user_id" tableName="refresh_tokens">
+            <column name="user_id"/>
+        </createIndex>
+        <createIndex indexName="idx_refresh_tokens_expires_at" tableName="refresh_tokens">
+            <column name="expires_at"/>
+        </createIndex>
+    </changeSet>
+
+    <!-- Company Indexes -->
+    <changeSet id="008-002-create-company-indexes" author="druginsightai">
+        <comment>Create indexes for companies table</comment>
+        <createIndex indexName="idx_companies_name" tableName="companies">
+            <column name="name"/>
+        </createIndex>
+        <createIndex indexName="idx_companies_country" tableName="companies">
+            <column name="country"/>
+        </createIndex>
+        <createIndex indexName="idx_companies_ticker" tableName="companies">
+            <column name="ticker"/>
+        </createIndex>
+        <createIndex indexName="idx_companies_market_cap" tableName="companies">
+            <column name="market_cap"/>
+        </createIndex>
+        <createIndex indexName="idx_companies_therapeutic_focus" tableName="companies">
+            <column name="therapeutic_focus" type="GIN"/>
+        </createIndex>
+    </changeSet>
+
+    <!-- Drug Indexes -->
+    <changeSet id="008-003-create-drug-indexes" author="druginsightai">
+        <comment>Create indexes for drugs and related tables</comment>
+        <createIndex indexName="idx_drugs_name" tableName="drugs">
+            <column name="name"/>
+        </createIndex>
+        <createIndex indexName="idx_drugs_generic_name" tableName="drugs">
+            <column name="generic_name"/>
+        </createIndex>
+        <createIndex indexName="idx_drugs_status" tableName="drugs">
+            <column name="status"/>
+        </createIndex>
+        <createIndex indexName="idx_drugs_therapeutic_area" tableName="drugs">
+            <column name="therapeutic_area"/>
+        </createIndex>
+        <createIndex indexName="idx_drugs_company_id" tableName="drugs">
+            <column name="company_id"/>
+        </createIndex>
+        <createIndex indexName="idx_drugs_approval_date" tableName="drugs">
+            <column name="approval_date"/>
+        </createIndex>
+
+        <!-- Text search indexes -->
+        <sql>CREATE INDEX idx_drugs_name_trgm ON drugs USING gin(name gin_trgm_ops);</sql>
+        <sql>CREATE INDEX idx_drugs_generic_name_trgm ON drugs USING gin(generic_name gin_trgm_ops);</sql>
+        <sql>CREATE INDEX idx_drugs_description_trgm ON drugs USING gin(description gin_trgm_ops);</sql>
+
+        <!-- New drug entries indexes -->
+        <createIndex indexName="idx_new_drug_entries_drug_id" tableName="new_drug_entries">
+            <column name="drug_id"/>
+        </createIndex>
+        <createIndex indexName="idx_new_drug_entries_type" tableName="new_drug_entries">
+            <column name="entry_type"/>
+        </createIndex>
+        <createIndex indexName="idx_new_drug_entries_date" tableName="new_drug_entries">
+            <column name="entry_date"/>
+        </createIndex>
+        <createIndex indexName="idx_new_drug_entries_status" tableName="new_drug_entries">
+            <column name="approval_status"/>
+        </createIndex>
+
+        <!-- Drug regulatory status indexes -->
+        <createIndex indexName="idx_drug_regulatory_status_drug_id" tableName="drug_regulatory_status">
+            <column name="drug_id"/>
+        </createIndex>
+        <createIndex indexName="idx_drug_regulatory_status_authority" tableName="drug_regulatory_status">
+            <column name="authority"/>
+        </createIndex>
+
+        <!-- Drug patents indexes -->
+        <createIndex indexName="idx_drug_patents_drug_id" tableName="drug_patents">
+            <column name="drug_id"/>
+        </createIndex>
+        <createIndex indexName="idx_drug_patents_expiration" tableName="drug_patents">
+            <column name="expiration_date"/>
+        </createIndex>
+    </changeSet>
+
+    <!-- Clinical Trials Indexes -->
+    <changeSet id="008-004-create-clinical-trial-indexes" author="druginsightai">
+        <comment>Create indexes for clinical trials tables</comment>
+        <createIndex indexName="idx_clinical_trials_nct_id" tableName="clinical_trials">
+            <column name="nct_id"/>
+        </createIndex>
+        <createIndex indexName="idx_clinical_trials_drug_id" tableName="clinical_trials">
+            <column name="drug_id"/>
+        </createIndex>
+        <createIndex indexName="idx_clinical_trials_phase" tableName="clinical_trials">
+            <column name="phase"/>
+        </createIndex>
+        <createIndex indexName="idx_clinical_trials_status" tableName="clinical_trials">
+            <column name="status"/>
+        </createIndex>
+        <createIndex indexName="idx_clinical_trials_sponsor" tableName="clinical_trials">
+            <column name="sponsor"/>
+        </createIndex>
+        <createIndex indexName="idx_clinical_trials_start_date" tableName="clinical_trials">
+            <column name="start_date"/>
+        </createIndex>
+
+        <!-- Text search indexes -->
+        <sql>CREATE INDEX idx_clinical_trials_title_trgm ON clinical_trials USING gin(title gin_trgm_ops);</sql>
+        <sql>CREATE INDEX idx_clinical_trials_locations_gin ON clinical_trials USING gin(locations);</sql>
+    </changeSet>
+
+    <!-- Adverse Events Indexes -->
+    <changeSet id="008-005-create-adverse-event-indexes" author="druginsightai">
+        <comment>Create indexes for adverse events tables</comment>
+        <createIndex indexName="idx_adverse_events_drug_id" tableName="adverse_events">
+            <column name="drug_id"/>
+        </createIndex>
+        <createIndex indexName="idx_adverse_events_case_id" tableName="adverse_events">
+            <column name="case_id"/>
+        </createIndex>
+        <createIndex indexName="idx_adverse_events_preferred_term" tableName="adverse_events">
+            <column name="preferred_term"/>
+        </createIndex>
+        <createIndex indexName="idx_adverse_events_severity" tableName="adverse_events">
+            <column name="severity"/>
+        </createIndex>
+        <createIndex indexName="idx_adverse_events_outcome" tableName="adverse_events">
+            <column name="outcome"/>
+        </createIndex>
+        <createIndex indexName="idx_adverse_events_source" tableName="adverse_events">
+            <column name="source"/>
+        </createIndex>
+        <createIndex indexName="idx_adverse_events_report_date" tableName="adverse_events">
+            <column name="report_date"/>
+        </createIndex>
+        <createIndex indexName="idx_adverse_events_age_group" tableName="adverse_events">
+            <column name="patient_age_group"/>
+        </createIndex>
+        <createIndex indexName="idx_adverse_events_gender" tableName="adverse_events">
+            <column name="patient_gender"/>
+        </createIndex>
+        <createIndex indexName="idx_adverse_events_system_organ_class" tableName="adverse_events">
+            <column name="system_organ_class"/>
+        </createIndex>
+
+        <!-- Composite indexes for common queries -->
+        <createIndex indexName="idx_adverse_events_drug_severity" tableName="adverse_events">
+            <column name="drug_id"/>
+            <column name="severity"/>
+        </createIndex>
+        <createIndex indexName="idx_adverse_events_drug_date" tableName="adverse_events">
+            <column name="drug_id"/>
+            <column name="report_date"/>
+        </createIndex>
+
+        <!-- MedDRA terms indexes -->
+        <createIndex indexName="idx_meddra_terms_code" tableName="meddra_terms">
+            <column name="code"/>
+        </createIndex>
+        <createIndex indexName="idx_meddra_terms_preferred_term" tableName="meddra_terms">
+            <column name="preferred_term"/>
+        </createIndex>
+        <createIndex indexName="idx_meddra_terms_soc" tableName="meddra_terms">
+            <column name="system_organ_class"/>
+        </createIndex>
+
+        <!-- Text search for MedDRA terms -->
+        <sql>CREATE INDEX idx_meddra_terms_preferred_term_trgm ON meddra_terms USING gin(preferred_term gin_trgm_ops);</sql>
+    </changeSet>
+
+    <!-- Reference Data Indexes -->
+    <changeSet id="008-006-create-reference-data-indexes" author="druginsightai">
+        <comment>Create indexes for reference data tables</comment>
+        <createIndex indexName="idx_therapeutic_areas_name" tableName="therapeutic_areas">
+            <column name="name"/>
+        </createIndex>
+        <createIndex indexName="idx_therapeutic_areas_code" tableName="therapeutic_areas">
+            <column name="code"/>
+        </createIndex>
+        <createIndex indexName="idx_countries_name" tableName="countries">
+            <column name="name"/>
+        </createIndex>
+        <createIndex indexName="idx_countries_iso2" tableName="countries">
+            <column name="code_iso2"/>
+        </createIndex>
+        <createIndex indexName="idx_countries_iso3" tableName="countries">
+            <column name="code_iso3"/>
+        </createIndex>
+        <createIndex indexName="idx_market_trends_period" tableName="market_trends">
+            <column name="time_period_start"/>
+            <column name="time_period_end"/>
+        </createIndex>
+    </changeSet>
+
+    <!-- Performance and Analytics Indexes -->
+    <changeSet id="008-007-create-analytics-indexes" author="druginsightai">
+        <comment>Create indexes for analytics and performance</comment>
+        <createIndex indexName="idx_drug_analytics_drug_id" tableName="drug_analytics">
+            <column name="drug_id"/>
+        </createIndex>
+        <createIndex indexName="idx_drug_analytics_period" tableName="drug_analytics">
+            <column name="period_start"/>
+            <column name="period_end"/>
+        </createIndex>
+        <createIndex indexName="idx_adverse_event_summaries_drug_id" tableName="adverse_event_summaries">
+            <column name="drug_id"/>
+        </createIndex>
+        <createIndex indexName="idx_adverse_event_summaries_period" tableName="adverse_event_summaries">
+            <column name="period_start"/>
+            <column name="period_end"/>
+        </createIndex>
+    </changeSet>
+
+</databaseChangeLog>

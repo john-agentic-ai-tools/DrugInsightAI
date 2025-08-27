@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+
+    <changeSet id="004-001-create-drugs-table" author="druginsightai">
+        <comment>Create drugs table</comment>
+        <createTable tableName="drugs">
+            <column name="id" type="uuid" defaultValueComputed="uuid_generate_v4()">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="generic_name" type="varchar(200)"/>
+            <column name="status" type="drug_status">
+                <constraints nullable="false"/>
+            </column>
+            <column name="therapeutic_area" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="indication" type="text"/>
+            <column name="company_id" type="uuid">
+                <constraints nullable="false" foreignKeyName="fk_drugs_company" references="companies(id)"/>
+            </column>
+            <column name="description" type="text"/>
+            <column name="mechanism_of_action" type="text"/>
+            <column name="dosage_form" type="varchar(100)"/>
+            <column name="route_of_administration" type="varchar(100)"/>
+            <column name="target_population" type="text"/>
+            <column name="market_size" type="decimal(15,2)"/>
+            <column name="approval_date" type="date"/>
+            <column name="is_active" type="boolean" defaultValue="true">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="004-002-create-drug-regulatory-status-table" author="druginsightai">
+        <comment>Create drug regulatory status table</comment>
+        <createTable tableName="drug_regulatory_status">
+            <column name="id" type="uuid" defaultValueComputed="uuid_generate_v4()">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="drug_id" type="uuid">
+                <constraints nullable="false" foreignKeyName="fk_regulatory_status_drug" references="drugs(id)" deleteCascade="true"/>
+            </column>
+            <column name="authority" type="approval_authority">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="approval_date" type="date"/>
+            <column name="application_number" type="varchar(100)"/>
+            <column name="application_type" type="varchar(100)"/>
+            <column name="priority_designations" type="text[]"/>
+            <column name="notes" type="text"/>
+            <column name="created_at" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="004-003-create-drug-patents-table" author="druginsightai">
+        <comment>Create drug patents table</comment>
+        <createTable tableName="drug_patents">
+            <column name="id" type="uuid" defaultValueComputed="uuid_generate_v4()">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="drug_id" type="uuid">
+                <constraints nullable="false" foreignKeyName="fk_patents_drug" references="drugs(id)" deleteCascade="true"/>
+            </column>
+            <column name="patent_number" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="title" type="text">
+                <constraints nullable="false"/>
+            </column>
+            <column name="expiration_date" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="country" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="filing_date" type="date"/>
+            <column name="grant_date" type="date"/>
+            <column name="patent_type" type="varchar(100)"/>
+            <column name="created_at" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="004-004-create-new-drug-entries-table" author="druginsightai">
+        <comment>Create new drug entries table for tracking recent additions</comment>
+        <createTable tableName="new_drug_entries">
+            <column name="id" type="uuid" defaultValueComputed="uuid_generate_v4()">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="drug_id" type="uuid">
+                <constraints nullable="false" foreignKeyName="fk_new_entries_drug" references="drugs(id)" deleteCascade="true"/>
+            </column>
+            <column name="entry_type" type="new_drug_entry_type">
+                <constraints nullable="false"/>
+            </column>
+            <column name="entry_date" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="changes_description" type="text">
+                <constraints nullable="false"/>
+            </column>
+            <column name="previous_version" type="jsonb"/>
+            <column name="new_attributes" type="jsonb"/>
+            <column name="regulatory_info" type="jsonb"/>
+            <column name="market_impact" type="jsonb"/>
+            <column name="approval_status" type="varchar(50)"/>
+            <column name="created_at" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="004-005-create-drug-analytics-table" author="druginsightai">
+        <comment>Create drug analytics table for performance metrics</comment>
+        <createTable tableName="drug_analytics">
+            <column name="id" type="uuid" defaultValueComputed="uuid_generate_v4()">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="drug_id" type="uuid">
+                <constraints nullable="false" foreignKeyName="fk_analytics_drug" references="drugs(id)" deleteCascade="true"/>
+            </column>
+            <column name="period_start" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="period_end" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="revenue" type="decimal(15,2)"/>
+            <column name="market_share" type="decimal(5,4)"/>
+            <column name="growth_rate" type="decimal(5,4)"/>
+            <column name="active_trials" type="integer"/>
+            <column name="success_rate" type="decimal(5,4)"/>
+            <column name="patient_population" type="integer"/>
+            <column name="competitive_landscape" type="jsonb"/>
+            <column name="created_at" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>

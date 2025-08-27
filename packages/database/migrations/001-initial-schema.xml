@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+
+    <changeSet id="001-001-enable-extensions" author="druginsightai">
+        <comment>Enable PostgreSQL extensions</comment>
+        <sql>CREATE EXTENSION IF NOT EXISTS "uuid-ossp";</sql>
+        <sql>CREATE EXTENSION IF NOT EXISTS "pg_trgm";</sql>
+        <sql>CREATE EXTENSION IF NOT EXISTS "unaccent";</sql>
+    </changeSet>
+
+    <changeSet id="001-002-create-enums" author="druginsightai">
+        <comment>Create application enums</comment>
+
+        <!-- Drug Status Enum -->
+        <sql>
+            CREATE TYPE drug_status AS ENUM (
+                'discovery',
+                'preclinical',
+                'phase_1',
+                'phase_2',
+                'phase_3',
+                'approved',
+                'withdrawn',
+                'discontinued'
+            );
+        </sql>
+
+        <!-- New Drug Entry Type Enum -->
+        <sql>
+            CREATE TYPE new_drug_entry_type AS ENUM (
+                'new_chemical_entity',
+                'new_formulation',
+                'new_route',
+                'new_dosage',
+                'new_generic',
+                'new_combination',
+                'new_indication'
+            );
+        </sql>
+
+        <!-- Trial Phase Enum -->
+        <sql>
+            CREATE TYPE trial_phase AS ENUM (
+                'preclinical',
+                'phase_1',
+                'phase_2',
+                'phase_3',
+                'phase_4'
+            );
+        </sql>
+
+        <!-- Trial Status Enum -->
+        <sql>
+            CREATE TYPE trial_status AS ENUM (
+                'not_yet_recruiting',
+                'recruiting',
+                'active',
+                'completed',
+                'terminated',
+                'withdrawn',
+                'suspended'
+            );
+        </sql>
+
+        <!-- Adverse Event Severity Enum -->
+        <sql>
+            CREATE TYPE adverse_event_severity AS ENUM (
+                'mild',
+                'moderate',
+                'severe',
+                'life_threatening',
+                'fatal',
+                'unknown'
+            );
+        </sql>
+
+        <!-- Adverse Event Source Enum -->
+        <sql>
+            CREATE TYPE adverse_event_source AS ENUM (
+                'faers',
+                'clinical_trial',
+                'post_market_surveillance',
+                'literature',
+                'spontaneous_report',
+                'regulatory_submission',
+                'other'
+            );
+        </sql>
+
+        <!-- Adverse Event Outcome Enum -->
+        <sql>
+            CREATE TYPE adverse_event_outcome AS ENUM (
+                'recovered',
+                'recovering',
+                'not_recovered',
+                'fatal',
+                'life_threatening',
+                'hospitalization',
+                'disability',
+                'congenital_anomaly',
+                'other',
+                'unknown'
+            );
+        </sql>
+
+        <!-- Age Group Enum -->
+        <sql>
+            CREATE TYPE age_group AS ENUM (
+                'neonate',
+                'infant',
+                'child',
+                'adolescent',
+                'adult',
+                'elderly',
+                'unknown'
+            );
+        </sql>
+
+        <!-- Approval Authority Enum -->
+        <sql>
+            CREATE TYPE approval_authority AS ENUM (
+                'FDA',
+                'EMA',
+                'PMDA',
+                'HC',
+                'TGA',
+                'ANVISA',
+                'NMPA',
+                'other'
+            );
+        </sql>
+
+        <!-- Gender Enum -->
+        <sql>
+            CREATE TYPE gender AS ENUM (
+                'male',
+                'female',
+                'unknown'
+            );
+        </sql>
+
+        <!-- Reporter Qualification Enum -->
+        <sql>
+            CREATE TYPE reporter_qualification AS ENUM (
+                'physician',
+                'pharmacist',
+                'nurse',
+                'consumer',
+                'lawyer',
+                'other'
+            );
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>

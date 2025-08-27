@@ -1,25 +1,91 @@
+# Docker Compose file for DrugInsightAI database services
+# Compatible with both 'docker compose' (plugin) and 'docker-compose' (standalone)
 version: '3.8'
 
 services:
   postgres:
     image: postgres:15-alpine
+    container_name: druginsightai-postgres
     environment:
       POSTGRES_DB: druginsightai
       POSTGRES_USER: druginsightai
       POSTGRES_PASSWORD: ${DB_PASSWORD:-changeme}
+      POSTGRES_INITDB_ARGS: "--encoding=UTF-8 --lc-collate=C --lc-ctype=C"
     ports:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      - ./schemas:/docker-entrypoint-initdb.d
+      - ./init-scripts:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U druginsightai -d druginsightai"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - druginsightai-network
 
   redis:
     image: redis:7-alpine
+    container_name: druginsightai-redis
     ports:
       - "6379:6379"
     volumes:
       - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - druginsightai-network
+
+  # Liquibase service for database migrations
+  liquibase:
+    image: liquibase/liquibase:4.24
+    container_name: druginsightai-liquibase
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ../../packages/database/migrations:/liquibase/changelog
+      - ../../packages/database/config:/liquibase/config
+      - ./logs:/liquibase/logs
+    working_dir: /liquibase
+    environment:
+      LIQUIBASE_COMMAND_URL: jdbc:postgresql://postgres:5432/druginsightai
+      LIQUIBASE_COMMAND_USERNAME: druginsightai
+      LIQUIBASE_COMMAND_PASSWORD: ${DB_PASSWORD:-changeme}
+      LIQUIBASE_COMMAND_CHANGELOG_FILE: /liquibase/changelog/db.changelog-master.xml
+      LIQUIBASE_LOG_LEVEL: INFO
+    command: ["update"]
+    networks:
+      - druginsightai-network
+
+  # PgAdmin for database management (optional, dev only)
+  pgadmin:
+    image: dpage/pgadmin4:7
+    container_name: druginsightai-pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@druginsightai.com
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD:-admin123}
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    ports:
+      - "5050:80"
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - druginsightai-network
+    profiles:
+      - dev
 
 volumes:
   postgres_data:
   redis_data:
+  pgadmin_data:
+
+networks:
+  druginsightai-network:
+    driver: bridge

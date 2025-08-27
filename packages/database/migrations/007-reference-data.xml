@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+
+    <changeSet id="007-001-create-therapeutic-areas-table" author="druginsightai">
+        <comment>Create therapeutic areas reference table</comment>
+        <createTable tableName="therapeutic_areas">
+            <column name="id" type="uuid" defaultValueComputed="uuid_generate_v4()">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(100)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="code" type="varchar(20)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="description" type="text"/>
+            <column name="parent_area_id" type="uuid">
+                <constraints nullable="true" foreignKeyName="fk_therapeutic_areas_parent" references="therapeutic_areas(id)"/>
+            </column>
+            <column name="market_size" type="decimal(15,2)"/>
+            <column name="growth_rate" type="decimal(5,4)"/>
+            <column name="is_active" type="boolean" defaultValue="true">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="007-002-create-countries-table" author="druginsightai">
+        <comment>Create countries reference table</comment>
+        <createTable tableName="countries">
+            <column name="id" type="uuid" defaultValueComputed="uuid_generate_v4()">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(100)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="code_iso2" type="varchar(2)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="code_iso3" type="varchar(3)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="region" type="varchar(100)"/>
+            <column name="subregion" type="varchar(100)"/>
+            <column name="regulatory_authority" type="varchar(100)"/>
+            <column name="pharmaceutical_market_size" type="decimal(15,2)"/>
+            <column name="is_active" type="boolean" defaultValue="true">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="007-003-create-market-trends-table" author="druginsightai">
+        <comment>Create market trends table</comment>
+        <createTable tableName="market_trends">
+            <column name="id" type="uuid" defaultValueComputed="uuid_generate_v4()">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="trend_name" type="varchar(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="text">
+                <constraints nullable="false"/>
+            </column>
+            <column name="impact_score" type="decimal(3,2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="categories" type="text[]"/>
+            <column name="therapeutic_areas" type="text[]"/>
+            <column name="time_period_start" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="time_period_end" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="growth_rate" type="decimal(5,4)"/>
+            <column name="investment_amount" type="decimal(15,2)"/>
+            <column name="key_drivers" type="text[]"/>
+            <column name="is_active" type="boolean" defaultValue="true">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="007-004-create-emerging-technologies-table" author="druginsightai">
+        <comment>Create emerging technologies table</comment>
+        <createTable tableName="emerging_technologies">
+            <column name="id" type="uuid" defaultValueComputed="uuid_generate_v4()">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="technology" type="varchar(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="text"/>
+            <column name="adoption_rate" type="decimal(5,4)"/>
+            <column name="market_impact" type="varchar(50)"/>
+            <column name="therapeutic_applications" type="text[]"/>
+            <column name="key_players" type="text[]"/>
+            <column name="investment_level" type="decimal(15,2)"/>
+            <column name="maturity_stage" type="varchar(50)"/>
+            <column name="time_to_market" type="integer"/>
+            <column name="regulatory_challenges" type="text[]"/>
+            <column name="is_active" type="boolean" defaultValue="true">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>

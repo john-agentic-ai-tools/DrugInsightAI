@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:pro="http://www.liquibase.org/xml/ns/pro"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd
+    http://www.liquibase.org/xml/ns/dbchangelog-ext
+    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+    http://www.liquibase.org/xml/ns/pro
+    http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.1.xsd">
+
+    <!-- Initial schema creation -->
+    <include file="001-initial-schema.xml"/>
+
+    <!-- Core entity tables -->
+    <include file="002-users-and-auth.xml"/>
+    <include file="003-companies.xml"/>
+    <include file="004-drugs.xml"/>
+    <include file="005-clinical-trials.xml"/>
+    <include file="006-adverse-events.xml"/>
+
+    <!-- Reference data and lookups -->
+    <include file="007-reference-data.xml"/>
+
+    <!-- Indexes and performance optimizations -->
+    <include file="008-indexes.xml"/>
+
+    <!-- Initial seed data -->
+    <include file="009-seed-data.xml"/>
+
+</databaseChangeLog>

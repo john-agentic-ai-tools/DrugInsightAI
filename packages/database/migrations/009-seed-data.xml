@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+
+    <changeSet id="009-001-seed-therapeutic-areas" author="druginsightai" context="local,dev">
+        <comment>Insert initial therapeutic areas data</comment>
+        <insert tableName="therapeutic_areas">
+            <column name="name">Oncology</column>
+            <column name="code">ONCO</column>
+            <column name="description">Cancer treatment and related therapies</column>
+            <column name="market_size">200000000000.00</column>
+            <column name="growth_rate">0.08</column>
+        </insert>
+        <insert tableName="therapeutic_areas">
+            <column name="name">Cardiovascular</column>
+            <column name="code">CARDIO</column>
+            <column name="description">Heart and circulatory system disorders</column>
+            <column name="market_size">150000000000.00</column>
+            <column name="growth_rate">0.05</column>
+        </insert>
+        <insert tableName="therapeutic_areas">
+            <column name="name">Central Nervous System</column>
+            <column name="code">CNS</column>
+            <column name="description">Brain and nervous system disorders</column>
+            <column name="market_size">120000000000.00</column>
+            <column name="growth_rate">0.10</column>
+        </insert>
+        <insert tableName="therapeutic_areas">
+            <column name="name">Immunology</column>
+            <column name="code">IMMUNO</column>
+            <column name="description">Immune system disorders and autoimmune diseases</column>
+            <column name="market_size">100000000000.00</column>
+            <column name="growth_rate">0.12</column>
+        </insert>
+        <insert tableName="therapeutic_areas">
+            <column name="name">Infectious Diseases</column>
+            <column name="code">INFECT</column>
+            <column name="description">Bacterial, viral, and fungal infections</column>
+            <column name="market_size">80000000000.00</column>
+            <column name="growth_rate">0.07</column>
+        </insert>
+    </changeSet>
+
+    <changeSet id="009-002-seed-countries" author="druginsightai" context="local,dev">
+        <comment>Insert initial countries data</comment>
+        <insert tableName="countries">
+            <column name="name">United States</column>
+            <column name="code_iso2">US</column>
+            <column name="code_iso3">USA</column>
+            <column name="region">Americas</column>
+            <column name="subregion">North America</column>
+            <column name="regulatory_authority">FDA</column>
+            <column name="pharmaceutical_market_size">500000000000.00</column>
+        </insert>
+        <insert tableName="countries">
+            <column name="name">Germany</column>
+            <column name="code_iso2">DE</column>
+            <column name="code_iso3">DEU</column>
+            <column name="region">Europe</column>
+            <column name="subregion">Western Europe</column>
+            <column name="regulatory_authority">EMA</column>
+            <column name="pharmaceutical_market_size">60000000000.00</column>
+        </insert>
+        <insert tableName="countries">
+            <column name="name">United Kingdom</column>
+            <column name="code_iso2">GB</column>
+            <column name="code_iso3">GBR</column>
+            <column name="region">Europe</column>
+            <column name="subregion">Western Europe</column>
+            <column name="regulatory_authority">MHRA</column>
+            <column name="pharmaceutical_market_size">35000000000.00</column>
+        </insert>
+        <insert tableName="countries">
+            <column name="name">Japan</column>
+            <column name="code_iso2">JP</column>
+            <column name="code_iso3">JPN</column>
+            <column name="region">Asia</column>
+            <column name="subregion">Eastern Asia</column>
+            <column name="regulatory_authority">PMDA</column>
+            <column name="pharmaceutical_market_size">85000000000.00</column>
+        </insert>
+        <insert tableName="countries">
+            <column name="name">China</column>
+            <column name="code_iso2">CN</column>
+            <column name="code_iso3">CHN</column>
+            <column name="region">Asia</column>
+            <column name="subregion">Eastern Asia</column>
+            <column name="regulatory_authority">NMPA</column>
+            <column name="pharmaceutical_market_size">140000000000.00</column>
+        </insert>
+    </changeSet>
+
+    <changeSet id="009-003-seed-sample-companies" author="druginsightai" context="local,dev">
+        <comment>Insert sample pharmaceutical companies</comment>
+        <insert tableName="companies">
+            <column name="name">Pfizer Inc.</column>
+            <column name="ticker">PFE</column>
+            <column name="country">United States</column>
+            <column name="market_cap">280000000000.00</column>
+            <column name="employees">79000</column>
+            <column name="founded_year">1849</column>
+            <column name="headquarters">New York, NY, USA</column>
+            <column name="website">https://www.pfizer.com</column>
+            <column name="description">American multinational pharmaceutical and biotechnology corporation</column>
+            <column name="ceo">Albert Bourla</column>
+            <column name="revenue">81288000000.00</column>
+            <column name="rd_spending">13829000000.00</column>
+            <column name="therapeutic_focus">{"Oncology", "Vaccines", "Immunology", "Rare Diseases"}</column>
+        </insert>
+        <insert tableName="companies">
+            <column name="name">Roche Holding AG</column>
+            <column name="ticker">ROG</column>
+            <column name="country">Switzerland</column>
+            <column name="market_cap">250000000000.00</column>
+            <column name="employees">101465</column>
+            <column name="founded_year">1896</column>
+            <column name="headquarters">Basel, Switzerland</column>
+            <column name="website">https://www.roche.com</column>
+            <column name="description">Swiss multinational healthcare company</column>
+            <column name="ceo">Thomas Schinecker</column>
+            <column name="revenue">68711000000.00</column>
+            <column name="rd_spending">15092000000.00</column>
+            <column name="therapeutic_focus">{"Oncology", "Immunology", "Infectious Diseases", "Neuroscience"}</column>
+        </insert>
+    </changeSet>
+
+    <changeSet id="009-004-seed-sample-meddra-terms" author="druginsightai" context="local,dev">
+        <comment>Insert sample MedDRA terms</comment>
+        <insert tableName="meddra_terms">
+            <column name="code">10028813</column>
+            <column name="preferred_term">Nausea</column>
+            <column name="high_level_term">Nausea and vomiting symptoms</column>
+            <column name="system_organ_class">Gastrointestinal disorders</column>
+            <column name="level">PT</column>
+            <column name="version">26.0</column>
+        </insert>
+        <insert tableName="meddra_terms">
+            <column name="code">10019211</column>
+            <column name="preferred_term">Headache</column>
+            <column name="high_level_term">Headaches</column>
+            <column name="system_organ_class">Nervous system disorders</column>
+            <column name="level">PT</column>
+            <column name="version">26.0</column>
+        </insert>
+        <insert tableName="meddra_terms">
+            <column name="code">10013963</column>
+            <column name="preferred_term">Dizziness</column>
+            <column name="high_level_term">Dizziness and vertigo</column>
+            <column name="system_organ_class">Nervous system disorders</column>
+            <column name="level">PT</column>
+            <column name="version">26.0</column>
+        </insert>
+        <insert tableName="meddra_terms">
+            <column name="code">10016256</column>
+            <column name="preferred_term">Fatigue</column>
+            <column name="high_level_term">Fatigue</column>
+            <column name="system_organ_class">General disorders and administration site conditions</column>
+            <column name="level">PT</column>
+            <column name="version">26.0</column>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>
