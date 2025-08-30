@@ -1,0 +1,55 @@
+{
+  "__export_date": "2025-08-30T11:54:00.000Z",
+  "__export_format": 4,
+  "__export_source": "insomnia.desktop.app:v8.0.0",
+  "_type": "export",
+  "resources": [
+    {
+      "_id": "req_get_user_profile",
+      "_type": "request",
+      "authentication": {},
+      "body": {},
+      "description": "Get current user profile information",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.auth_token }}"
+        }
+      ],
+      "isPrivate": false,
+      "metaSortKey": -100000000,
+      "method": "GET",
+      "name": "Get User Profile",
+      "parameters": [],
+      "parentId": "req_group_users",
+      "url": "{{ _.base_url }}/users/profile"
+    },
+    {
+      "_id": "req_update_user_profile",
+      "_type": "request",
+      "authentication": {},
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"first_name\": \"Updated\",\n  \"last_name\": \"User\",\n  \"preferences\": {\n    \"theme\": \"dark\",\n    \"notifications\": true\n  }\n}"
+      },
+      "description": "Update current user profile information",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.auth_token }}"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "isPrivate": false,
+      "metaSortKey": -90000000,
+      "method": "PUT",
+      "name": "Update User Profile",
+      "parameters": [],
+      "parentId": "req_group_users",
+      "url": "{{ _.base_url }}/users/profile"
+    }
+  ]
+}

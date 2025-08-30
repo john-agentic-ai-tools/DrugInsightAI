@@ -1,0 +1,104 @@
+{
+  "__export_date": "2025-08-30T11:54:00.000Z",
+  "__export_format": 4,
+  "__export_source": "insomnia.desktop.app:v8.0.0",
+  "_type": "export",
+  "resources": [
+    {
+      "_id": "env_development",
+      "_type": "environment",
+      "color": "#7d69cb",
+      "data": {
+        "admin_email": "admin@druginsightai.com",
+        "admin_password": "adminpass123",
+        "api_version": "v1",
+        "auth_token": "",
+        "base_url": "http://localhost:8000",
+        "refresh_token": "",
+        "test_email": "test@druginsightai.com",
+        "test_password": "testpass123",
+        "user_id": ""
+      },
+      "dataPropertyOrder": {
+        "&": [
+          "base_url",
+          "api_version",
+          "auth_token",
+          "refresh_token",
+          "user_id",
+          "test_email",
+          "test_password",
+          "admin_email",
+          "admin_password"
+        ]
+      },
+      "isPrivate": false,
+      "metaSortKey": 1000000001,
+      "name": "Development"
+    },
+    {
+      "_id": "env_staging",
+      "_type": "environment",
+      "color": "#f39c12",
+      "data": {
+        "admin_email": "admin@druginsightai.com",
+        "admin_password": "{{ STAGING_ADMIN_PASSWORD }}",
+        "api_version": "v1",
+        "auth_token": "",
+        "base_url": "https://api-staging.druginsightai.com",
+        "refresh_token": "",
+        "test_email": "test@druginsightai.com",
+        "test_password": "{{ STAGING_TEST_PASSWORD }}",
+        "user_id": ""
+      },
+      "dataPropertyOrder": {
+        "&": [
+          "base_url",
+          "api_version",
+          "auth_token",
+          "refresh_token",
+          "user_id",
+          "test_email",
+          "test_password",
+          "admin_email",
+          "admin_password"
+        ]
+      },
+      "isPrivate": false,
+      "metaSortKey": 1000000002,
+      "name": "Staging"
+    },
+    {
+      "_id": "env_production",
+      "_type": "environment",
+      "color": "#e74c3c",
+      "data": {
+        "admin_email": "",
+        "admin_password": "",
+        "api_version": "v1",
+        "auth_token": "",
+        "base_url": "https://api.druginsightai.com",
+        "refresh_token": "",
+        "test_email": "integration@druginsightai.com",
+        "test_password": "{{ PROD_TEST_PASSWORD }}",
+        "user_id": ""
+      },
+      "dataPropertyOrder": {
+        "&": [
+          "base_url",
+          "api_version",
+          "auth_token",
+          "refresh_token",
+          "user_id",
+          "test_email",
+          "test_password",
+          "admin_email",
+          "admin_password"
+        ]
+      },
+      "isPrivate": false,
+      "metaSortKey": 1000000003,
+      "name": "Production"
+    }
+  ]
+}

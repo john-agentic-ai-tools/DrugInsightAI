@@ -12,10 +12,21 @@ python = "^3.11"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^7.0"
+pytest-asyncio = "^1.0"
 black = "^23.0"
 isort = "^5.0"
 flake8 = "^6.0"
 mypy = "^1.0"
+# Testing dependencies for API service
+fakeredis = "^2.0"
+httpx = "^0.25"
+sqlalchemy = "^2.0"
+aiosqlite = "^0.19"
+pydantic = "^2.4"
+fastapi = "^0.104"
+structlog = "^23.0"
+pydantic-settings = "^2.1"
+email-validator = "^2.1"
 
 [build-system]
 requires = ["poetry-core"]
@@ -28,6 +39,40 @@ target-version = ['py311']
 [tool.isort]
 profile = "black"
 line_length = 88
+
+[tool.pytest.ini_options]
+# Test paths for automatic discovery
+testpaths = [
+    "packages",
+    "services",
+]
+python_files = "test_*.py *_test.py"
+python_classes = "Test*"
+python_functions = "test_*"
+addopts = [
+    "--strict-markers",
+    "--strict-config",
+    "--verbose",
+    "--tb=short",
+]
+filterwarnings = [
+    "ignore::UserWarning",
+    "ignore::DeprecationWarning",
+    "ignore::pytest.PytestUnraisableExceptionWarning",
+    "ignore::ImportWarning",
+]
+markers = [
+    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+    "integration: marks tests as integration tests",
+    "unit: marks tests as unit tests",
+    "api: marks tests for API service",
+    "data_processors: marks tests for data processors service",
+    "data_harvesters: marks tests for data harvesters service",
+    "common: marks tests for common package",
+    "auth: marks tests for auth package",
+    "database: marks tests for database package",
+    "logging: marks tests for logging package",
+]
 
 [tool.mypy]
 python_version = "3.11"

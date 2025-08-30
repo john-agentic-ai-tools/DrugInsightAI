@@ -1,0 +1,121 @@
+{
+  "__export_date": "2025-08-30T11:54:00.000Z",
+  "__export_format": 4,
+  "__export_source": "insomnia.desktop.app:v8.0.0",
+  "_type": "export",
+  "resources": [
+    {
+      "_id": "req_list_drugs",
+      "_type": "request",
+      "authentication": {},
+      "body": {},
+      "description": "Get paginated list of drugs",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.auth_token }}"
+        }
+      ],
+      "isPrivate": false,
+      "metaSortKey": -100000000,
+      "method": "GET",
+      "name": "List Drugs",
+      "parameters": [
+        {
+          "disabled": false,
+          "name": "page",
+          "value": "1"
+        },
+        {
+          "disabled": false,
+          "name": "limit",
+          "value": "20"
+        },
+        {
+          "disabled": true,
+          "name": "search",
+          "value": ""
+        },
+        {
+          "disabled": true,
+          "name": "therapeutic_area",
+          "value": ""
+        }
+      ],
+      "parentId": "req_group_drugs",
+      "url": "{{ _.base_url }}/drugs"
+    },
+    {
+      "_id": "req_get_drug_details",
+      "_type": "request",
+      "authentication": {},
+      "body": {},
+      "description": "Get detailed information for a specific drug",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.auth_token }}"
+        }
+      ],
+      "isPrivate": false,
+      "metaSortKey": -90000000,
+      "method": "GET",
+      "name": "Get Drug Details",
+      "parameters": [],
+      "parentId": "req_group_drugs",
+      "url": "{{ _.base_url }}/drugs/{drug_id}"
+    },
+    {
+      "_id": "req_drug_analytics",
+      "_type": "request",
+      "authentication": {},
+      "body": {},
+      "description": "Get analytics data for a specific drug",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.auth_token }}"
+        }
+      ],
+      "isPrivate": false,
+      "metaSortKey": -80000000,
+      "method": "GET",
+      "name": "Drug Analytics",
+      "parameters": [
+        {
+          "disabled": false,
+          "name": "period",
+          "value": "30d"
+        }
+      ],
+      "parentId": "req_group_drugs",
+      "url": "{{ _.base_url }}/drugs/{drug_id}/analytics"
+    },
+    {
+      "_id": "req_new_drugs",
+      "_type": "request",
+      "authentication": {},
+      "body": {},
+      "description": "Get recently added drugs",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.auth_token }}"
+        }
+      ],
+      "isPrivate": false,
+      "metaSortKey": -70000000,
+      "method": "GET",
+      "name": "New Drugs",
+      "parameters": [
+        {
+          "disabled": false,
+          "name": "days_back",
+          "value": "7"
+        }
+      ],
+      "parentId": "req_group_drugs",
+      "url": "{{ _.base_url }}/drugs/new"
+    }
+  ]
+}

@@ -1,0 +1,85 @@
+{
+  "__export_date": "2025-08-30T11:54:00.000Z",
+  "__export_format": 4,
+  "__export_source": "insomnia.desktop.app:v8.0.0",
+  "_type": "export",
+  "resources": [
+    {
+      "_id": "req_group_root",
+      "_type": "request_group",
+      "description": "Integration tests for DrugInsightAI REST API",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -1000000000,
+      "name": "DrugInsightAI API v1",
+      "parentId": "wrk_druginsight_api"
+    },
+    {
+      "_id": "wrk_druginsight_api",
+      "_type": "workspace",
+      "description": "Integration testing workspace for DrugInsightAI platform",
+      "name": "DrugInsightAI API",
+      "scope": "collection"
+    },
+    {
+      "_id": "req_group_auth",
+      "_type": "request_group",
+      "description": "Authentication and authorization endpoints",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -900000000,
+      "name": "\ud83d\udd10 Authentication",
+      "parentId": "req_group_root"
+    },
+    {
+      "_id": "req_group_health",
+      "_type": "request_group",
+      "description": "Health check and system monitoring endpoints",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -800000000,
+      "name": "\ud83c\udfe5 Health & Monitoring",
+      "parentId": "req_group_root"
+    },
+    {
+      "_id": "req_group_drugs",
+      "_type": "request_group",
+      "description": "Drug data and analytics endpoints",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -700000000,
+      "name": "\ud83d\udc8a Drugs",
+      "parentId": "req_group_root"
+    },
+    {
+      "_id": "req_group_users",
+      "_type": "request_group",
+      "description": "User management endpoints",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -600000000,
+      "name": "\ud83d\udc64 Users",
+      "parentId": "req_group_root"
+    },
+    {
+      "_id": "req_group_companies",
+      "_type": "request_group",
+      "description": "Pharmaceutical company endpoints",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -500000000,
+      "name": "\ud83c\udfe2 Companies",
+      "parentId": "req_group_root"
+    },
+    {
+      "_id": "req_group_test_suites",
+      "_type": "request_group",
+      "description": "Automated test suites and workflows",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -400000000,
+      "name": "\ud83e\uddea Test Suites",
+      "parentId": "req_group_root"
+    }
+  ]
+}

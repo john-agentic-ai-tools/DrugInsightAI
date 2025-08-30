@@ -1,0 +1,95 @@
+{
+  "__export_date": "2025-08-30T11:54:00.000Z",
+  "__export_format": 4,
+  "__export_source": "insomnia.desktop.app:v8.0.0",
+  "_type": "export",
+  "resources": [
+    {
+      "_id": "req_login_success",
+      "_type": "request",
+      "authentication": {},
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"email\": \"{{ _.test_email }}\",\n  \"password\": \"{{ _.test_password }}\"\n}"
+      },
+      "description": "Successful user login with valid credentials",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "isPrivate": false,
+      "metaSortKey": -100000000,
+      "method": "POST",
+      "name": "Login - Success",
+      "parameters": [],
+      "parentId": "req_group_auth",
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingFollowRedirects": "global",
+      "settingRebuildPath": true,
+      "settingSendCookies": true,
+      "settingStoreCookies": true,
+      "url": "{{ _.base_url }}/auth/login"
+    },
+    {
+      "_id": "req_login_invalid",
+      "_type": "request",
+      "authentication": {},
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"email\": \"{{ _.test_email }}\",\n  \"password\": \"wrongpassword\"\n}"
+      },
+      "description": "Login attempt with invalid credentials",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "isPrivate": false,
+      "metaSortKey": -90000000,
+      "method": "POST",
+      "name": "Login - Invalid Credentials",
+      "parameters": [],
+      "parentId": "req_group_auth",
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingFollowRedirects": "global",
+      "settingRebuildPath": true,
+      "settingSendCookies": true,
+      "settingStoreCookies": true,
+      "url": "{{ _.base_url }}/auth/login"
+    },
+    {
+      "_id": "req_refresh_token",
+      "_type": "request",
+      "authentication": {},
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"refresh_token\": \"{{ _.refresh_token }}\"\n}"
+      },
+      "description": "Refresh access token using refresh token",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "isPrivate": false,
+      "metaSortKey": -80000000,
+      "method": "POST",
+      "name": "Refresh Token",
+      "parameters": [],
+      "parentId": "req_group_auth",
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingFollowRedirects": "global",
+      "settingRebuildPath": true,
+      "settingSendCookies": true,
+      "settingStoreCookies": true,
+      "url": "{{ _.base_url }}/auth/refresh"
+    }
+  ]
+}

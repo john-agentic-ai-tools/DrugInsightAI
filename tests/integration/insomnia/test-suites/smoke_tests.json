@@ -1,0 +1,93 @@
+{
+  "__export_date": "2025-08-30T11:54:00.000Z",
+  "__export_format": 4,
+  "__export_source": "insomnia.desktop.app:v8.0.0",
+  "_type": "export",
+  "resources": [
+    {
+      "_id": "req_smoke_test_workflow",
+      "_type": "request",
+      "authentication": {},
+      "body": {},
+      "description": "Basic smoke test to verify core API functionality",
+      "headers": [],
+      "isPrivate": false,
+      "metaSortKey": -100000000,
+      "method": "GET",
+      "name": "\ud83d\udead Smoke Test Workflow",
+      "parameters": [],
+      "parentId": "req_group_test_suites",
+      "tests": [
+        {
+          "code": "const response = await insomnia.send();\nexpect(response.status).to.equal(200);\nexpect(response.data).to.have.property('status');\nexpect(response.data).to.have.property('version');",
+          "name": "Health Check Response"
+        }
+      ],
+      "url": "{{ _.base_url }}/health"
+    },
+    {
+      "_id": "req_auth_flow_test",
+      "_type": "request",
+      "authentication": {},
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"email\": \"{{ _.test_email }}\",\n  \"password\": \"{{ _.test_password }}\"\n}"
+      },
+      "description": "Test complete authentication flow",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "isPrivate": false,
+      "metaSortKey": -90000000,
+      "method": "POST",
+      "name": "\ud83d\udd10 Auth Flow Test",
+      "parameters": [],
+      "parentId": "req_group_test_suites",
+      "tests": [
+        {
+          "code": "const response = await insomnia.send();\nexpect(response.status).to.equal(200);\nexpect(response.data).to.have.property('access_token');\nexpect(response.data).to.have.property('refresh_token');\n\n// Store tokens for subsequent requests\ninsomnia.environment.set('auth_token', response.data.access_token);\ninsomnia.environment.set('refresh_token', response.data.refresh_token);",
+          "name": "Login Success"
+        }
+      ],
+      "url": "{{ _.base_url }}/auth/login"
+    },
+    {
+      "_id": "req_api_coverage_test",
+      "_type": "request",
+      "authentication": {},
+      "body": {},
+      "description": "Test coverage of major API endpoints",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.auth_token }}"
+        }
+      ],
+      "isPrivate": false,
+      "metaSortKey": -80000000,
+      "method": "GET",
+      "name": "\ud83d\udcca API Coverage Test",
+      "parameters": [
+        {
+          "name": "page",
+          "value": "1"
+        },
+        {
+          "name": "limit",
+          "value": "5"
+        }
+      ],
+      "parentId": "req_group_test_suites",
+      "tests": [
+        {
+          "code": "const response = await insomnia.send();\nexpect(response.status).to.equal(200);\nexpect(response.data).to.have.property('items');\nexpected(response.data).to.have.property('total');\nexpect(response.data).to.have.property('page');\nexpect(response.data).to.have.property('limit');",
+          "name": "Drugs List Response"
+        }
+      ],
+      "url": "{{ _.base_url }}/drugs"
+    }
+  ]
+}
