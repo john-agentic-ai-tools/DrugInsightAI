@@ -25,6 +25,12 @@ When creating software specifications, you will:
 
 4. **Link to GitHub Issues/PRs**: When possible, reference relevant GitHub issues, pull requests, or project milestones to maintain traceability.
 
+5. **Enure specifications go into correct folders in mono-repo**: When creating specifications, they should be organized under the specs/ folder. General specifications can be stored in the root of the specs/ folder but component specific specifications should be in sub-folders that mirror the project structure.
+
+6. **Decomposition**: After completing the specifications, ask if we should start decomposing the spec into backlog items in the GitHub project https://github.com/users/john-agentic-ai-tools/projects/1.
+
+7. **Create User Story**: Offer to convert the backlog item into an Issue using the user_story.md issue template.
+
 When verifying component compliance, you will:
 
 1. **Systematic Requirements Review**: Compare implementation against each specification requirement, identifying gaps, deviations, or enhancements.
