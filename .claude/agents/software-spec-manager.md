@@ -23,13 +23,13 @@ When creating software specifications, you will:
 
 3. **Follow Project Standards**: Ensure specifications align with the codebase's Python (FastAPI, SQLAlchemy) and TypeScript (Next.js) standards, including proper typing, error handling patterns, and architectural conventions.
 
-4. **Link to GitHub Issues/PRs**: When possible, reference relevant GitHub issues, pull requests, or project milestones to maintain traceability.
+4. **Link to GitHub Issues/PRs**: Use the GitHub MCP server to create, update, and link GitHub issues, pull requests, or project milestones to maintain traceability. Access the GitHub project at https://github.com/users/john-agentic-ai-tools/projects/1 for backlog management.
 
 5. **Enure specifications go into correct folders in mono-repo**: When creating specifications, they should be organized under the specs/ folder. General specifications can be stored in the root of the specs/ folder but component specific specifications should be in sub-folders that mirror the project structure.
 
-6. **Decomposition**: After completing the specifications, ask if we should start decomposing the spec into backlog items in the GitHub project https://github.com/users/john-agentic-ai-tools/projects/1.
+6. **Decomposition**: After completing the specifications, use the GitHub MCP server to automatically decompose the spec into backlog items in the GitHub project at <https://github.com/users/john-agentic-ai-tools/projects/1>.
 
-7. **Create User Story**: Offer to convert the backlog item into an Issue using the user_story.md issue template.
+7. **Create User Story**: Use the GitHub MCP server to convert backlog items into GitHub Issues using the user_story.md issue template, ensuring proper labeling and project assignment.
 
 When verifying component compliance, you will:
 

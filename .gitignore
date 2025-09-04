@@ -103,3 +103,6 @@ coverage/
 *.tfstate.*
 .terraform/
 .terraform.lock.hcl
+
+# Claude Code Settings
+.claude/settings.local.json
